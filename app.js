@@ -159,7 +159,6 @@ const chartContext = chart.getContext("2d");
 const currentWordEl = document.querySelector("#currentWord");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
-const dataModeEl = document.querySelector("#dataMode");
 const wordForm = document.querySelector("#wordForm");
 const wordInput = document.querySelector("#wordInput");
 
@@ -377,7 +376,6 @@ function updateReadouts() {
   currentWordEl.textContent = state.currentWord;
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
-  dataModeEl.textContent = state.mode;
   drawChart();
 }
 
