@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neural Activation Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="control-panel">
+      <header class="panel-header">
+        <p class="eyebrow">Neural Activation Viewer</p>
+        <h1>Brain region activation dashboard</h1>
+        <p class="subtle-copy">Type a cognitive or emotional cue to drive a biologically inspired activation cascade.</p>
+      </header>
+
+      <section class="data-block">
+        <div class="data-row">
+          <span class="data-label">Current input word</span>
+          <span class="data-value" id="currentWord">resting</span>
+        </div>
+      </section>
+
+      <section class="readout-grid">
+        <article class="readout-card">
+          <span class="readout-label">Active regions</span>
+          <strong class="readout-value" id="activeRegions">0</strong>
+        </article>
+        <article class="readout-card">
+          <span class="readout-label">Dominant region</span>
+          <strong class="readout-value" id="dominantRegion">resting</strong>
+        </article>
+        <article class="readout-card">
+          <span class="readout-label">Connection strength</span>
+          <strong class="readout-value" id="connectionStrength">0.00</strong>
+        </article>
+        <article class="readout-card">
+          <span class="readout-label">Signal cascade</span>
+          <strong class="readout-value" id="signalCascade">resting</strong>
+        </article>
+      </section>
+
+      <section class="chart-card">
+        <div class="section-heading">
+          <span>Activation readout</span>
+          <span class="section-meta" id="dataMode">fallback dataset</span>
+        </div>
+        <canvas id="activationChart" width="320" height="220" aria-label="Activation level chart"></canvas>
+      </section>
+
+      <section class="data-block note-block">
+        <div class="section-heading">
+          <span>Source pipeline</span>
+        </div>
+        <p id="sourceStatus" class="source-status">
+          Initializing Allen Brain Atlas query, then falling back to literature-derived activation values if no usable signal is returned.
+        </p>
+      </section>
+
+      <form class="input-form" id="wordForm">
+        <label class="input-label" for="wordInput">Cue word</label>
+        <div class="input-row">
+          <input id="wordInput" name="word" type="text" placeholder="fear, joy, memory, focus..." autocomplete="off">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </aside>
+
+    <section class="viz-panel">
+      <div class="viz-header">
+        <div>
+          <p class="eyebrow">Neural network map</p>
+          <h2>Regional signaling model</h2>
+        </div>
+        <div class="legend">
+          <span><i class="swatch swatch-orange"></i>Amygdala</span>
+          <span><i class="swatch swatch-blue"></i>Hippocampus</span>
+          <span><i class="swatch swatch-purple"></i>Prefrontal cortex</span>
+          <span><i class="swatch swatch-teal"></i>Language cortex</span>
+        </div>
+      </div>
+
+      <div class="network-stage">
+        <svg id="networkSvg" viewBox="0 0 980 720" role="img" aria-label="Interactive neural network visualization"></svg>
+        <div class="axis-indicator" aria-hidden="true">
+          <span class="axis axis-x">X</span>
+          <span class="axis axis-y">Y</span>
+          <span class="axis axis-z">Z</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
