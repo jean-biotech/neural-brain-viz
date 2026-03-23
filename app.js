@@ -5,7 +5,7 @@ const brainRegions = [
     color: "#5fc0b5",
     glow: "rgba(95, 192, 181, 0.32)",
     baseRadius: 31,
-    position: { x: 214, y: 174 },
+    position: { x: 188, y: 152 },
     secondary: false,
     wisps: [
       { x1: -18, y1: -10, cx: -54, cy: -44, x2: -72, y2: -74 },
@@ -19,7 +19,7 @@ const brainRegions = [
     color: "#b18df0",
     glow: "rgba(177, 141, 240, 0.3)",
     baseRadius: 36,
-    position: { x: 746, y: 144 },
+    position: { x: 782, y: 132 },
     secondary: false,
     wisps: [
       { x1: -20, y1: -14, cx: -54, cy: -42, x2: -78, y2: -68 },
@@ -33,7 +33,7 @@ const brainRegions = [
     color: "#7db5ff",
     glow: "rgba(125, 181, 255, 0.28)",
     baseRadius: 34,
-    position: { x: 470, y: 416 },
+    position: { x: 438, y: 392 },
     secondary: false,
     wisps: [
       { x1: -20, y1: -16, cx: -54, cy: -42, x2: -78, y2: -64 },
@@ -47,7 +47,7 @@ const brainRegions = [
     color: "#f0aa56",
     glow: "rgba(240, 170, 86, 0.28)",
     baseRadius: 30,
-    position: { x: 202, y: 548 },
+    position: { x: 244, y: 492 },
     secondary: false,
     wisps: [
       { x1: -16, y1: -12, cx: -42, cy: -30, x2: -58, y2: -52 },
@@ -61,7 +61,7 @@ const brainRegions = [
     color: "#93b1ff",
     glow: "rgba(147, 177, 255, 0.22)",
     baseRadius: 18,
-    position: { x: 356, y: 318 },
+    position: { x: 348, y: 284 },
     secondary: true,
     wisps: [
       { x1: -10, y1: -6, cx: -24, cy: -18, x2: -36, y2: -30 },
@@ -74,7 +74,7 @@ const brainRegions = [
     color: "#d2a1ff",
     glow: "rgba(210, 161, 255, 0.2)",
     baseRadius: 16,
-    position: { x: 670, y: 368 },
+    position: { x: 646, y: 332 },
     secondary: true,
     wisps: [
       { x1: -8, y1: -8, cx: -24, cy: -20, x2: -34, y2: -34 },
@@ -87,7 +87,7 @@ const brainRegions = [
     color: "#74c7a3",
     glow: "rgba(116, 199, 163, 0.2)",
     baseRadius: 17,
-    position: { x: 820, y: 564 },
+    position: { x: 776, y: 522 },
     secondary: true,
     wisps: [
       { x1: -8, y1: -6, cx: -22, cy: -18, x2: -34, y2: -28 },
@@ -229,6 +229,13 @@ function renderNetwork() {
   });
 
   svg.appendChild(defs);
+  svg.appendChild(makeSvg("rect", {
+    x: 0,
+    y: 0,
+    width: 980,
+    height: 660,
+    fill: "#0a0e1a"
+  }));
 
   const connectionLayer = makeSvg("g");
   const streakLayer = makeSvg("g", { id: "streakLayer" });
