@@ -31,17 +31,9 @@
           <span class="data-label">Current input word</span>
           <span class="data-value" id="currentWord">resting</span>
         </div>
-        <div class="data-row">
-          <span class="data-label">Last activated</span>
-          <span class="data-value" id="lastActivated">--:--:--</span>
-        </div>
       </section>
 
       <section class="readout-grid">
-        <article class="readout-card">
-          <span class="readout-label">Active regions</span>
-          <strong class="readout-value" id="activeRegions">0</strong>
-        </article>
         <article class="readout-card">
           <span class="readout-label">Dominant region</span>
           <strong class="readout-value" id="dominantRegion">resting</strong>
@@ -49,10 +41,6 @@
         <article class="readout-card">
           <span class="readout-label">Connection strength</span>
           <strong class="readout-value" id="connectionStrength">0.00</strong>
-        </article>
-        <article class="readout-card">
-          <span class="readout-label">Signal cascade</span>
-          <strong class="readout-value" id="signalCascade">resting</strong>
         </article>
       </section>
 
@@ -83,6 +71,7 @@
       </div>
 
       <div class="network-stage">
+        <div class="particle-field" aria-hidden="true"></div>
         <svg id="networkSvg" viewBox="0 0 980 720" role="img" aria-label="Interactive neural network visualization"></svg>
         <div class="axis-indicator" aria-hidden="true">
           <span class="axis axis-x">X</span>

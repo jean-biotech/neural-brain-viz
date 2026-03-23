@@ -1,25 +1,121 @@
 const brainRegions = [
-  { id: "amygdala", label: "Amygdala", color: "#c78b4c", baseRadius: 34, position: { x: 220, y: 200 } },
-  { id: "hippocampus", label: "Hippocampus", color: "#6d8fb7", baseRadius: 30, position: { x: 820, y: 210 } },
-  { id: "prefrontal", label: "Prefrontal Cortex", color: "#8d79b1", baseRadius: 38, position: { x: 250, y: 520 } },
-  { id: "language", label: "Language Cortex", color: "#5d9b95", baseRadius: 32, position: { x: 840, y: 520 } }
+  {
+    id: "language",
+    label: "Language Cortex",
+    color: "#5fc0b5",
+    glow: "rgba(95, 192, 181, 0.32)",
+    baseRadius: 31,
+    position: { x: 214, y: 174 },
+    secondary: false,
+    wisps: [
+      { x1: -18, y1: -10, cx: -54, cy: -44, x2: -72, y2: -74 },
+      { x1: 16, y1: -12, cx: 42, cy: -44, x2: 52, y2: -78 },
+      { x1: -10, y1: 18, cx: -44, cy: 42, x2: -70, y2: 52 }
+    ]
+  },
+  {
+    id: "prefrontal",
+    label: "Prefrontal Cortex",
+    color: "#b18df0",
+    glow: "rgba(177, 141, 240, 0.3)",
+    baseRadius: 36,
+    position: { x: 746, y: 144 },
+    secondary: false,
+    wisps: [
+      { x1: -20, y1: -14, cx: -54, cy: -42, x2: -78, y2: -68 },
+      { x1: 16, y1: -8, cx: 54, cy: -40, x2: 80, y2: -60 },
+      { x1: 18, y1: 16, cx: 54, cy: 34, x2: 74, y2: 58 }
+    ]
+  },
+  {
+    id: "hippocampus",
+    label: "Hippocampus",
+    color: "#7db5ff",
+    glow: "rgba(125, 181, 255, 0.28)",
+    baseRadius: 34,
+    position: { x: 470, y: 416 },
+    secondary: false,
+    wisps: [
+      { x1: -20, y1: -16, cx: -54, cy: -42, x2: -78, y2: -64 },
+      { x1: 18, y1: -12, cx: 42, cy: -34, x2: 60, y2: -62 },
+      { x1: 12, y1: 20, cx: 36, cy: 52, x2: 58, y2: 76 }
+    ]
+  },
+  {
+    id: "amygdala",
+    label: "Amygdala",
+    color: "#f0aa56",
+    glow: "rgba(240, 170, 86, 0.28)",
+    baseRadius: 30,
+    position: { x: 202, y: 548 },
+    secondary: false,
+    wisps: [
+      { x1: -16, y1: -12, cx: -42, cy: -30, x2: -58, y2: -52 },
+      { x1: 14, y1: -8, cx: 38, cy: -28, x2: 60, y2: -44 },
+      { x1: -10, y1: 16, cx: -32, cy: 42, x2: -46, y2: 66 }
+    ]
+  },
+  {
+    id: "thalamus",
+    label: "Thalamus",
+    color: "#93b1ff",
+    glow: "rgba(147, 177, 255, 0.22)",
+    baseRadius: 18,
+    position: { x: 356, y: 318 },
+    secondary: true,
+    wisps: [
+      { x1: -10, y1: -6, cx: -24, cy: -18, x2: -36, y2: -30 },
+      { x1: 10, y1: 6, cx: 20, cy: 18, x2: 32, y2: 26 }
+    ]
+  },
+  {
+    id: "basal-ganglia",
+    label: "Basal Ganglia",
+    color: "#d2a1ff",
+    glow: "rgba(210, 161, 255, 0.2)",
+    baseRadius: 16,
+    position: { x: 670, y: 368 },
+    secondary: true,
+    wisps: [
+      { x1: -8, y1: -8, cx: -24, cy: -20, x2: -34, y2: -34 },
+      { x1: 8, y1: 8, cx: 22, cy: 20, x2: 34, y2: 30 }
+    ]
+  },
+  {
+    id: "cerebellum",
+    label: "Cerebellum",
+    color: "#74c7a3",
+    glow: "rgba(116, 199, 163, 0.2)",
+    baseRadius: 17,
+    position: { x: 820, y: 564 },
+    secondary: true,
+    wisps: [
+      { x1: -8, y1: -6, cx: -22, cy: -18, x2: -34, y2: -28 },
+      { x1: 8, y1: -4, cx: 20, cy: -18, x2: 30, y2: -28 }
+    ]
+  }
 ];
 
 const connections = [
   { id: "amygdala-hippocampus", from: "amygdala", to: "hippocampus", weight: 0.92 },
   { id: "hippocampus-prefrontal", from: "hippocampus", to: "prefrontal", weight: 0.84 },
-  { id: "amygdala-prefrontal", from: "amygdala", to: "prefrontal", weight: 0.76 },
+  { id: "amygdala-thalamus", from: "amygdala", to: "thalamus", weight: 0.72 },
+  { id: "thalamus-language", from: "thalamus", to: "language", weight: 0.7 },
+  { id: "thalamus-hippocampus", from: "thalamus", to: "hippocampus", weight: 0.74 },
   { id: "prefrontal-language", from: "prefrontal", to: "language", weight: 0.8 },
-  { id: "hippocampus-language", from: "hippocampus", to: "language", weight: 0.68 }
+  { id: "hippocampus-basal-ganglia", from: "hippocampus", to: "basal-ganglia", weight: 0.66 },
+  { id: "prefrontal-basal-ganglia", from: "prefrontal", to: "basal-ganglia", weight: 0.7 },
+  { id: "language-cerebellum", from: "language", to: "cerebellum", weight: 0.58 },
+  { id: "basal-ganglia-cerebellum", from: "basal-ganglia", to: "cerebellum", weight: 0.54 }
 ];
 
 const literatureActivation = {
-  fear: { activation: { amygdala: 0.96, hippocampus: 0.58, prefrontal: 0.44, language: 0.21 }, dominant: "Amygdala", strength: 0.87 },
-  memory: { activation: { amygdala: 0.32, hippocampus: 0.94, prefrontal: 0.62, language: 0.38 }, dominant: "Hippocampus", strength: 0.81 },
-  learning: { activation: { amygdala: 0.28, hippocampus: 0.88, prefrontal: 0.83, language: 0.56 }, dominant: "Hippocampus", strength: 0.84 },
-  focus: { activation: { amygdala: 0.18, hippocampus: 0.46, prefrontal: 0.95, language: 0.52 }, dominant: "Prefrontal Cortex", strength: 0.89 },
-  stress: { activation: { amygdala: 0.91, hippocampus: 0.42, prefrontal: 0.39, language: 0.18 }, dominant: "Amygdala", strength: 0.85 },
-  joy: { activation: { amygdala: 0.54, hippocampus: 0.62, prefrontal: 0.82, language: 0.47 }, dominant: "Prefrontal Cortex", strength: 0.73 }
+  fear: { activation: { amygdala: 0.96, hippocampus: 0.58, prefrontal: 0.44, language: 0.21, thalamus: 0.52, "basal-ganglia": 0.32, cerebellum: 0.26 }, dominant: "Amygdala", strength: 0.87 },
+  memory: { activation: { amygdala: 0.32, hippocampus: 0.94, prefrontal: 0.62, language: 0.38, thalamus: 0.46, "basal-ganglia": 0.28, cerebellum: 0.22 }, dominant: "Hippocampus", strength: 0.81 },
+  learning: { activation: { amygdala: 0.28, hippocampus: 0.88, prefrontal: 0.83, language: 0.56, thalamus: 0.49, "basal-ganglia": 0.58, cerebellum: 0.34 }, dominant: "Hippocampus", strength: 0.84 },
+  focus: { activation: { amygdala: 0.18, hippocampus: 0.46, prefrontal: 0.95, language: 0.52, thalamus: 0.36, "basal-ganglia": 0.54, cerebellum: 0.24 }, dominant: "Prefrontal Cortex", strength: 0.89 },
+  stress: { activation: { amygdala: 0.91, hippocampus: 0.42, prefrontal: 0.39, language: 0.18, thalamus: 0.57, "basal-ganglia": 0.33, cerebellum: 0.25 }, dominant: "Amygdala", strength: 0.85 },
+  joy: { activation: { amygdala: 0.54, hippocampus: 0.62, prefrontal: 0.82, language: 0.47, thalamus: 0.34, "basal-ganglia": 0.41, cerebellum: 0.44 }, dominant: "Prefrontal Cortex", strength: 0.73 }
 };
 
 const keywordAliases = {
@@ -45,12 +141,10 @@ const state = {
   mode: "fallback dataset",
   sourceStatus:
     "Attempting Allen Brain Atlas structure query. Emotional state activation is not directly available there, so the viewer will use literature-derived mappings when the API yields metadata only or the request fails.",
-  activation: { amygdala: 0, hippocampus: 0, prefrontal: 0, language: 0 },
+  activation: Object.fromEntries(brainRegions.map((region) => [region.id, 0])),
   dominant: "resting",
   dominantId: null,
   strength: 0,
-  cascadeState: "resting",
-  lastActivated: "--:--:--",
   pulses: [],
   nodePulses: [],
   activeNodes: new Map(),
@@ -63,11 +157,8 @@ const svg = document.querySelector("#networkSvg");
 const chart = document.querySelector("#activationChart");
 const chartContext = chart.getContext("2d");
 const currentWordEl = document.querySelector("#currentWord");
-const lastActivatedEl = document.querySelector("#lastActivated");
-const activeRegionsEl = document.querySelector("#activeRegions");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
-const signalCascadeEl = document.querySelector("#signalCascade");
 const dataModeEl = document.querySelector("#dataMode");
 const sourceStatusEl = document.querySelector("#sourceStatus");
 const wordForm = document.querySelector("#wordForm");
@@ -91,11 +182,6 @@ function getRegionById(id) {
   return brainRegions.find((region) => region.id === id);
 }
 
-function getConnectionId(from, to) {
-  const direct = `${from}-${to}`;
-  return state.connectionRefs.has(direct) ? direct : `${to}-${from}`;
-}
-
 function resolveCueWord(rawWord) {
   const normalized = rawWord.trim().toLowerCase();
   if (!normalized) return "resting";
@@ -107,22 +193,17 @@ function resolveCueWord(rawWord) {
 function approximateActivation(word) {
   const chars = [...word];
   const seed = chars.reduce((total, char, index) => total + char.charCodeAt(0) * (index + 1), 0);
-  const values = {
-    amygdala: clamp(((seed % 37) + 18) / 100),
-    hippocampus: clamp((((seed >> 1) % 44) + 28) / 100),
-    prefrontal: clamp((((seed >> 2) % 52) + 22) / 100),
-    language: clamp((((seed >> 3) % 40) + 24) / 100)
-  };
+  const values = Object.fromEntries(brainRegions.map((region, index) => {
+    const mod = 32 + index * 5;
+    const offset = region.secondary ? 12 : 20;
+    return [region.id, clamp((((seed >> index) % mod) + offset) / 100)];
+  }));
   const sorted = Object.entries(values).sort((a, b) => b[1] - a[1]);
   return {
     activation: values,
     dominant: formatWord(getRegionById(sorted[0][0]).label.toLowerCase()),
-    strength: clamp(sorted[0][1] * 0.86)
+    strength: clamp(sorted[0][1] * 0.84)
   };
-}
-
-function formatTimestamp(date = new Date()) {
-  return date.toLocaleTimeString([], { hour12: false });
 }
 
 function renderAxisHud() {
@@ -139,97 +220,102 @@ function renderNetwork() {
   const defs = makeSvg("defs");
 
   brainRegions.forEach((region) => {
-    const gradient = makeSvg("radialGradient", { id: `grad-${region.id}`, cx: "34%", cy: "30%" });
-    gradient.appendChild(makeSvg("stop", { offset: "0%", "stop-color": "#ffffff", "stop-opacity": "0.5" }));
-    gradient.appendChild(makeSvg("stop", { offset: "22%", "stop-color": region.color, "stop-opacity": "0.98" }));
-    gradient.appendChild(makeSvg("stop", { offset: "100%", "stop-color": region.color, "stop-opacity": "0.82" }));
-    defs.appendChild(gradient);
+    const radial = makeSvg("radialGradient", { id: `grad-${region.id}`, cx: "34%", cy: "32%" });
+    radial.appendChild(makeSvg("stop", { offset: "0%", "stop-color": "#ffffff", "stop-opacity": "0.82" }));
+    radial.appendChild(makeSvg("stop", { offset: "18%", "stop-color": region.color, "stop-opacity": "0.92" }));
+    radial.appendChild(makeSvg("stop", { offset: "58%", "stop-color": region.color, "stop-opacity": "0.46" }));
+    radial.appendChild(makeSvg("stop", { offset: "100%", "stop-color": region.color, "stop-opacity": "0" }));
+    defs.appendChild(radial);
   });
 
   svg.appendChild(defs);
 
   const connectionLayer = makeSvg("g");
-  const pulseLayer = makeSvg("g", { id: "pulseLayer" });
+  const streakLayer = makeSvg("g", { id: "streakLayer" });
   const nodeLayer = makeSvg("g");
 
   connections.forEach((connection) => {
     const from = getRegionById(connection.from).position;
     const to = getRegionById(connection.to).position;
-    const line = makeSvg("line", {
+    const base = makeSvg("line", {
       x1: from.x,
       y1: from.y,
       x2: to.x,
       y2: to.y,
-      stroke: "#c8c4be",
+      stroke: "#1e2d45",
       "stroke-width": 0.5,
       "stroke-linecap": "round"
     });
-    const active = makeSvg("line", {
+    const glow = makeSvg("line", {
       x1: from.x,
       y1: from.y,
       x2: to.x,
       y2: to.y,
-      stroke: "#0a7e6e",
-      "stroke-width": 1.5,
-      "stroke-linecap": "round",
-      opacity: "0"
-    });
-    const pulse = makeSvg("line", {
-      x1: from.x,
-      y1: from.y,
-      x2: from.x,
-      y2: from.y,
-      stroke: "#0a7e6e",
+      stroke: "#fff5c0",
       "stroke-width": 2,
       "stroke-linecap": "round",
       opacity: "0"
     });
-    connectionLayer.append(line, active, pulse);
-    state.connectionRefs.set(connection.id, { line, active, pulse, connection });
+    const trail = makeSvg("line", {
+      x1: from.x,
+      y1: from.y,
+      x2: to.x,
+      y2: to.y,
+      stroke: "rgba(255,245,192,0.36)",
+      "stroke-width": 1.2,
+      "stroke-linecap": "round",
+      opacity: "0"
+    });
+    connectionLayer.append(base, trail, glow);
+    state.connectionRefs.set(connection.id, { base, trail, glow, connection });
   });
 
   brainRegions.forEach((region) => {
     const group = makeSvg("g", { transform: `translate(${region.position.x} ${region.position.y})` });
-    const pulseLayerNode = makeSvg("g");
+    const wispLayer = makeSvg("g");
+    const pulseLayer = makeSvg("g");
+
+    region.wisps.forEach((wisp) => {
+      wispLayer.appendChild(makeSvg("path", {
+        d: `M ${wisp.x1} ${wisp.y1} Q ${wisp.cx} ${wisp.cy} ${wisp.x2} ${wisp.y2}`,
+        stroke: "rgba(127, 148, 180, 0.16)",
+        "stroke-width": 0.5,
+        fill: "none",
+        "stroke-linecap": "round"
+      }));
+    });
+
+    const glow = makeSvg("circle", {
+      cx: 0,
+      cy: 0,
+      r: region.baseRadius + 12,
+      fill: region.glow,
+      opacity: "0.22"
+    });
     const sphere = makeSvg("circle", {
       cx: 0,
       cy: 0,
       r: region.baseRadius,
       fill: `url(#grad-${region.id})`,
-      opacity: "0.5"
-    });
-    const inner = makeSvg("circle", {
-      cx: -region.baseRadius * 0.18,
-      cy: -region.baseRadius * 0.2,
-      r: region.baseRadius * 0.35,
-      fill: "rgba(255,255,255,0.2)",
-      opacity: "0.7"
-    });
-    const ring = makeSvg("circle", {
-      cx: 0,
-      cy: 0,
-      r: region.baseRadius + 2,
-      fill: "none",
-      stroke: "#0a7e6e",
-      "stroke-width": 1.5,
-      opacity: "0"
+      opacity: region.secondary ? "0.52" : "0.62"
     });
     const label = makeSvg("text", {
       x: 0,
-      y: region.baseRadius + 28,
+      y: region.baseRadius + 24,
       "text-anchor": "middle",
-      "font-size": "13",
+      "font-size": region.secondary ? "12" : "13",
       "font-family": "DM Sans, sans-serif",
-      fill: "#1a1a1a"
+      fill: "#eef3ff",
+      opacity: region.secondary ? "0.72" : "0.9"
     });
     label.textContent = region.label;
 
-    group.append(pulseLayerNode, sphere, inner, ring, label);
+    group.append(wispLayer, glow, sphere, pulseLayer, label);
     nodeLayer.appendChild(group);
-    state.nodeRefs.set(region.id, { sphere, inner, ring, label, pulseLayer: pulseLayerNode, region });
+    state.nodeRefs.set(region.id, { wispLayer, glow, sphere, pulseLayer, label, region });
   });
 
-  svg.append(connectionLayer, pulseLayer, nodeLayer);
+  svg.append(connectionLayer, streakLayer, nodeLayer);
 }
 
 function drawRoundedRect(context, x, y, width, height, radius) {
@@ -254,9 +340,12 @@ function drawChart() {
   const height = chart.height;
   chartContext.clearRect(0, 0, width, height);
 
-  const entries = brainRegions.map((region) => ({ ...region, value: state.activation[region.id] || 0 }));
+  const entries = brainRegions.filter((region) => !region.secondary).map((region) => ({
+    ...region,
+    value: state.activation[region.id] || 0
+  }));
   const barWidth = 24;
-  const gap = 38;
+  const gap = 36;
   const startX = 42;
   const maxBarHeight = 132;
   const baseY = height - 36;
@@ -264,7 +353,8 @@ function drawChart() {
   entries.forEach((entry, index) => {
     const x = startX + index * (barWidth + gap);
     const barHeight = Math.max(entry.value * maxBarHeight, 8);
-    chartContext.fillStyle = "rgba(26,26,26,0.06)";
+
+    chartContext.fillStyle = "rgba(255,255,255,0.06)";
     chartContext.beginPath();
     drawRoundedRect(chartContext, x, baseY - maxBarHeight, barWidth, maxBarHeight, 8);
     chartContext.fill();
@@ -274,8 +364,8 @@ function drawChart() {
     drawRoundedRect(chartContext, x, baseY - barHeight, barWidth, barHeight, 8);
     chartContext.fill();
 
-    chartContext.fillStyle = "#6b6b6b";
-    chartContext.font = "10px DM Mono";
+    chartContext.fillStyle = "#8591aa";
+    chartContext.font = "11px DM Sans";
     chartContext.textAlign = "center";
     chartContext.fillText(entry.label.split(" ")[0], x + barWidth / 2, height - 12);
   });
@@ -283,11 +373,8 @@ function drawChart() {
 
 function updateReadouts() {
   currentWordEl.textContent = state.currentWord;
-  lastActivatedEl.textContent = state.lastActivated;
-  activeRegionsEl.textContent = String(Object.values(state.activation).filter((value) => value >= 0.3).length);
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
-  signalCascadeEl.textContent = state.cascadeState;
   dataModeEl.textContent = state.mode;
   sourceStatusEl.textContent = state.sourceStatus;
   drawChart();
@@ -303,11 +390,14 @@ function buildCascade(startId) {
   while (queue.length) {
     const current = queue.shift();
     const edges = adjacency[current.nodeId] || [];
-    edges.forEach(({ neighbor, connectionId }) => {
-      if (!visitedConnections.has(connectionId)) {
-        visitedConnections.add(connectionId);
-        connectionEvents.push({ connectionId, from: current.nodeId, to: neighbor, depth: current.depth });
-      }
+    const toFire = edges.filter(({ connectionId }) => !visitedConnections.has(connectionId));
+
+    toFire.forEach(({ neighbor, connectionId }) => {
+      visitedConnections.add(connectionId);
+      connectionEvents.push({ connectionId, from: current.nodeId, to: neighbor, depth: current.depth });
+    });
+
+    edges.forEach(({ neighbor }) => {
       if (!visitedNodes.has(neighbor)) {
         visitedNodes.add(neighbor);
         queue.push({ nodeId: neighbor, depth: current.depth + 1 });
@@ -324,29 +414,31 @@ function triggerCascade(startId) {
   state.nodePulses = [];
   state.activeNodes.clear();
   state.activeConnections.clear();
-  state.cascadeState = startId ? "propagating" : "resting";
   if (!startId) return;
 
   const now = performance.now();
   const { nodeEvents, connectionEvents } = buildCascade(startId);
 
   nodeEvents.forEach((event) => {
-    const start = now + event.depth * 260;
-    state.nodePulses.push({ nodeId: event.nodeId, start, duration: 900 });
-    state.activeNodes.set(event.nodeId, { start, duration: 1500 });
+    const region = getRegionById(event.nodeId);
+    const start = now + event.depth * 620;
+    state.nodePulses.push({ nodeId: event.nodeId, start, duration: 800 });
+    state.activeNodes.set(event.nodeId, { start, duration: 2200, color: region.color });
   });
 
-  connectionEvents.forEach((event, index) => {
-    const start = now + event.depth * 260 + (index % 2) * 70 + 20;
+  connectionEvents.forEach((event) => {
+    const start = now + event.depth * 620 + 120;
+    const source = getRegionById(event.from);
     state.pulses.push({
       connectionId: event.connectionId,
       from: event.from,
       to: event.to,
+      color: source.color,
       start,
-      duration: 250,
-      fade: 1500
+      duration: 720,
+      fade: 1800
     });
-    state.activeConnections.set(event.connectionId, { start: start + 250, duration: 1500 });
+    state.activeConnections.set(event.connectionId, { start: start + 720, duration: 1800, color: source.color });
   });
 }
 
@@ -358,7 +450,7 @@ function applyScenario(word) {
       : word && word !== "resting"
         ? approximateActivation(word)
         : {
-            activation: { amygdala: 0, hippocampus: 0, prefrontal: 0, language: 0 },
+            activation: Object.fromEntries(brainRegions.map((region) => [region.id, 0])),
             dominant: "resting",
             strength: 0
           };
@@ -368,60 +460,80 @@ function applyScenario(word) {
   state.dominant = scenario.dominant;
   state.dominantId = Object.entries(scenario.activation).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
   state.strength = scenario.strength;
-  state.lastActivated = formatTimestamp();
   triggerCascade(state.dominantId);
   updateReadouts();
 }
 
 function animate(now) {
+  const streakLayer = document.querySelector("#streakLayer");
+  streakLayer.innerHTML = "";
   let activeVisuals = 0;
 
-  state.connectionRefs.forEach(({ line, active, pulse, connection }) => {
-    const pulseState = state.pulses.find((item) => item.connectionId === connection.id);
+  state.connectionRefs.forEach(({ base, trail, glow, connection }) => {
+    const pulse = state.pulses.find((item) => item.connectionId === connection.id);
     const activeState = state.activeConnections.get(connection.id);
-    let fadeStrength = 0;
-    let pulseVisible = false;
-
-    if (pulseState) {
-      const elapsed = now - pulseState.start;
-      const total = pulseState.duration + pulseState.fade;
-      if (elapsed >= 0 && elapsed <= total) {
-        activeVisuals += 1;
-        if (elapsed <= pulseState.duration) {
-          pulseVisible = true;
-          const progress = elapsed / pulseState.duration;
-          const from = getRegionById(pulseState.from).position;
-          const to = getRegionById(pulseState.to).position;
-          const x2 = from.x + (to.x - from.x) * progress;
-          const y2 = from.y + (to.y - from.y) * progress;
-          pulse.setAttribute("x1", from.x);
-          pulse.setAttribute("y1", from.y);
-          pulse.setAttribute("x2", x2);
-          pulse.setAttribute("y2", y2);
-          pulse.setAttribute("opacity", "1");
-        } else {
-          pulse.setAttribute("opacity", "0");
-        }
-      } else {
-        pulse.setAttribute("opacity", "0");
-      }
-    } else {
-      pulse.setAttribute("opacity", "0");
-    }
+    let sustained = 0;
+    let glowOpacity = 0;
 
     if (activeState) {
       const elapsed = now - activeState.start;
       if (elapsed >= 0 && elapsed <= activeState.duration) {
-        fadeStrength = 1 - elapsed / activeState.duration;
+        activeVisuals += 1;
+        sustained = 1 - elapsed / activeState.duration;
       }
     }
 
-    active.setAttribute("opacity", String(Math.max(fadeStrength * 0.8, pulseVisible ? 1 : 0)));
-    line.setAttribute("stroke-width", fadeStrength > 0 ? "1.1" : "0.5");
-    line.setAttribute("stroke", fadeStrength > 0 ? "#b7d5cf" : "#c8c4be");
+    if (pulse) {
+      const elapsed = now - pulse.start;
+      const total = pulse.duration + pulse.fade;
+      if (elapsed >= 0 && elapsed <= total) {
+        activeVisuals += 1;
+        if (elapsed <= pulse.duration) {
+          const progress = elapsed / pulse.duration;
+          const from = getRegionById(pulse.from).position;
+          const to = getRegionById(pulse.to).position;
+          const head = progress;
+          const tail = Math.max(0, progress - 0.18);
+          const headX = from.x + (to.x - from.x) * head;
+          const headY = from.y + (to.y - from.y) * head;
+          const tailX = from.x + (to.x - from.x) * tail;
+          const tailY = from.y + (to.y - from.y) * tail;
+
+          streakLayer.appendChild(makeSvg("line", {
+            x1: tailX,
+            y1: tailY,
+            x2: headX,
+            y2: headY,
+            stroke: pulse.color,
+            "stroke-width": 6.4,
+            "stroke-linecap": "round",
+            opacity: "0.18"
+          }));
+          streakLayer.appendChild(makeSvg("line", {
+            x1: tailX,
+            y1: tailY,
+            x2: headX,
+            y2: headY,
+            stroke: "#fff5c0",
+            "stroke-width": 2.6,
+            "stroke-linecap": "round",
+            opacity: "0.98"
+          }));
+          glowOpacity = 1;
+        } else {
+          glowOpacity = Math.max(0, 1 - (elapsed - pulse.duration) / pulse.fade);
+        }
+      }
+    }
+
+    trail.setAttribute("opacity", String(Math.max(sustained * 0.42, glowOpacity * 0.28)));
+    trail.setAttribute("stroke-width", String(1 + Math.max(sustained, glowOpacity) * 0.8));
+    glow.setAttribute("opacity", String(Math.max(sustained * 0.26, glowOpacity * 0.34)));
+    glow.setAttribute("stroke-width", String(1.4 + Math.max(sustained, glowOpacity) * 1.1));
+    base.setAttribute("stroke", sustained > 0 ? "#314867" : "#1e2d45");
   });
 
-  state.nodeRefs.forEach(({ sphere, inner, ring, pulseLayer, region }) => {
+  state.nodeRefs.forEach(({ wispLayer, glow, sphere, pulseLayer, label, region }) => {
     pulseLayer.innerHTML = "";
     const activation = state.activation[region.id] || 0;
     const activeState = state.activeNodes.get(region.id);
@@ -436,34 +548,31 @@ function animate(now) {
     }
 
     const isDominant = state.dominantId === region.id;
-    const scale = 1 + (isDominant ? 0.08 : 0) + pulseStrength * 0.07;
+    const baseScale = region.secondary ? 0.96 : 1;
+    const scale = baseScale + (isDominant ? 0.08 : 0) + pulseStrength * 0.08;
+    glow.setAttribute("opacity", String(0.18 + activation * 0.14 + pulseStrength * 0.32));
+    sphere.setAttribute("opacity", String((region.secondary ? 0.42 : 0.5) + activation * 0.18 + pulseStrength * 0.3));
     sphere.setAttribute("transform", `scale(${scale})`);
-    inner.setAttribute("transform", `scale(${scale})`);
-    ring.setAttribute("opacity", String(pulseStrength * 0.75));
-    ring.setAttribute("r", String(region.baseRadius * scale + pulseStrength * 14));
-    sphere.setAttribute("opacity", String(isDominant ? 1 : 0.5 + activation * 0.22));
-    inner.setAttribute("opacity", String(0.52 + pulseStrength * 0.22));
+    glow.setAttribute("transform", `scale(${1 + pulseStrength * 0.18})`);
+    label.setAttribute("opacity", String(region.secondary ? 0.74 : 0.9));
 
     if (pulseStrength > 0) {
       pulseLayer.appendChild(makeSvg("circle", {
         cx: 0,
         cy: 0,
-        r: region.baseRadius * scale + pulseStrength * 16,
+        r: region.baseRadius + pulseStrength * 22,
         fill: "none",
-        stroke: "#0a7e6e",
-        "stroke-width": 1.5,
-        opacity: String(pulseStrength * 0.55)
+        stroke: region.color,
+        "stroke-width": 1.4,
+        opacity: String(pulseStrength * 0.5)
       }));
     }
-  });
 
-  if (activeVisuals > 0) {
-    state.cascadeState = "propagating";
-    signalCascadeEl.textContent = "propagating";
-  } else if (state.cascadeState !== "resting") {
-    state.cascadeState = "resting";
-    signalCascadeEl.textContent = "resting";
-  }
+    Array.from(wispLayer.children).forEach((wisp) => {
+      wisp.setAttribute("stroke", pulseStrength > 0.02 ? region.color : "rgba(127, 148, 180, 0.16)");
+      wisp.setAttribute("opacity", String(0.18 + pulseStrength * 0.6));
+    });
+  });
 
   requestAnimationFrame(animate);
 }
