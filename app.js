@@ -278,18 +278,7 @@ function renderNetwork() {
 
   brainRegions.forEach((region) => {
     const group = makeSvg("g", { transform: `translate(${region.position.x} ${region.position.y})` });
-    const wispLayer = makeSvg("g");
     const pulseLayer = makeSvg("g");
-
-    region.wisps.forEach((wisp) => {
-      wispLayer.appendChild(makeSvg("path", {
-        d: `M ${wisp.x1} ${wisp.y1} Q ${wisp.cx} ${wisp.cy} ${wisp.x2} ${wisp.y2}`,
-        stroke: "rgba(127, 148, 180, 0.16)",
-        "stroke-width": 0.5,
-        fill: "none",
-        "stroke-linecap": "round"
-      }));
-    });
 
     const glow = makeSvg("circle", {
       cx: 0,
@@ -316,9 +305,9 @@ function renderNetwork() {
     });
     label.textContent = region.label;
 
-    group.append(wispLayer, glow, sphere, pulseLayer, label);
+    group.append(glow, sphere, pulseLayer, label);
     nodeLayer.appendChild(group);
-    state.nodeRefs.set(region.id, { wispLayer, glow, sphere, pulseLayer, label, region });
+    state.nodeRefs.set(region.id, { glow, sphere, pulseLayer, label, region });
   });
 
   svg.append(connectionLayer, streakLayer, nodeLayer);
@@ -545,7 +534,7 @@ function animate(now) {
     base.setAttribute("stroke", sustained > 0 ? "#314867" : "#304362");
   });
 
-  state.nodeRefs.forEach(({ wispLayer, glow, sphere, pulseLayer, label, region }) => {
+  state.nodeRefs.forEach(({ glow, sphere, pulseLayer, label, region }) => {
     pulseLayer.innerHTML = "";
     const activation = state.activation[region.id] || 0;
     const activeState = state.activeNodes.get(region.id);
@@ -579,11 +568,6 @@ function animate(now) {
         opacity: String(pulseStrength * 0.5)
       }));
     }
-
-    Array.from(wispLayer.children).forEach((wisp) => {
-      wisp.setAttribute("stroke", pulseStrength > 0.02 ? region.color : "rgba(127, 148, 180, 0.16)");
-      wisp.setAttribute("opacity", String(0.18 + pulseStrength * 0.6));
-    });
   });
 
   requestAnimationFrame(animate);
