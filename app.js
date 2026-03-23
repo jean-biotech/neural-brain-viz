@@ -160,7 +160,6 @@ const currentWordEl = document.querySelector("#currentWord");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
 const dataModeEl = document.querySelector("#dataMode");
-const sourceStatusEl = document.querySelector("#sourceStatus");
 const wordForm = document.querySelector("#wordForm");
 const wordInput = document.querySelector("#wordInput");
 
@@ -249,7 +248,7 @@ function renderNetwork() {
       y1: from.y,
       x2: to.x,
       y2: to.y,
-      stroke: "#1e2d45",
+      stroke: "#304362",
       "stroke-width": 0.5,
       "stroke-linecap": "round"
     });
@@ -347,8 +346,15 @@ function drawChart() {
   const height = chart.height;
   chartContext.clearRect(0, 0, width, height);
 
+  const labelMap = {
+    language: "Lang",
+    prefrontal: "PFC",
+    hippocampus: "Hippo",
+    amygdala: "Amyg"
+  };
   const entries = brainRegions.filter((region) => !region.secondary).map((region) => ({
     ...region,
+    shortLabel: labelMap[region.id] || region.label,
     value: state.activation[region.id] || 0
   }));
   const barWidth = 24;
@@ -374,7 +380,7 @@ function drawChart() {
     chartContext.fillStyle = "#8591aa";
     chartContext.font = "11px DM Sans";
     chartContext.textAlign = "center";
-    chartContext.fillText(entry.label.split(" ")[0], x + barWidth / 2, height - 12);
+    chartContext.fillText(entry.shortLabel, x + barWidth / 2, height - 12);
   });
 }
 
@@ -383,7 +389,6 @@ function updateReadouts() {
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
   dataModeEl.textContent = state.mode;
-  sourceStatusEl.textContent = state.sourceStatus;
   drawChart();
 }
 
@@ -537,7 +542,7 @@ function animate(now) {
     trail.setAttribute("stroke-width", String(1 + Math.max(sustained, glowOpacity) * 0.8));
     glow.setAttribute("opacity", String(Math.max(sustained * 0.26, glowOpacity * 0.34)));
     glow.setAttribute("stroke-width", String(1.4 + Math.max(sustained, glowOpacity) * 1.1));
-    base.setAttribute("stroke", sustained > 0 ? "#314867" : "#1e2d45");
+    base.setAttribute("stroke", sustained > 0 ? "#314867" : "#304362");
   });
 
   state.nodeRefs.forEach(({ wispLayer, glow, sphere, pulseLayer, label, region }) => {

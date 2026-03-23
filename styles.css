@@ -39,6 +39,7 @@ body {
   background: var(--bg-panel);
   border-right: 1px solid var(--border);
   overflow-y: auto;
+  height: 100%;
 }
 
 .viz-panel {
@@ -47,6 +48,7 @@ body {
   padding: 20px;
   background: var(--bg-main);
   min-height: 0;
+  height: 100%;
 }
 
 .panel-header,
@@ -320,10 +322,12 @@ button:focus {
     border-right: 0;
     border-bottom: 1px solid var(--border);
     overflow: visible;
+    height: auto;
   }
 
   .viz-panel {
     min-height: 70vh;
+    height: auto;
   }
 
   .network-stage {
