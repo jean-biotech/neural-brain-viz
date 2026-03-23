@@ -139,6 +139,8 @@ const adjacency = connections.reduce((map, connection) => {
 const state = {
   currentWord: "resting",
   mode: "fallback dataset",
+  sourceStatus:
+    "Attempting Allen Brain Atlas query, then falling back to literature-derived activation values if no usable signal is returned.",
   activation: Object.fromEntries(brainRegions.map((region) => [region.id, 0])),
   dominant: "resting",
   dominantId: null,
@@ -158,6 +160,7 @@ const currentWordEl = document.querySelector("#currentWord");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
 const dataModeEl = document.querySelector("#dataMode");
+const sourceStatusEl = document.querySelector("#sourceStatus");
 const wordForm = document.querySelector("#wordForm");
 const wordInput = document.querySelector("#wordInput");
 
@@ -380,6 +383,7 @@ function updateReadouts() {
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
   dataModeEl.textContent = state.mode;
+  sourceStatusEl.textContent = state.sourceStatus;
   drawChart();
 }
 
@@ -600,8 +604,12 @@ async function queryAllenBrainAtlas() {
     if (!usable) throw new Error("Allen API returned structure metadata without usable activation values");
 
     state.mode = "allen metadata + literature fallback";
+    state.sourceStatus =
+      "Allen Brain Atlas responded with live structure metadata. Emotional state activation is not directly exposed there, so the viewer overlays literature-derived relative activation values for cue words.";
   } catch (error) {
     state.mode = "fallback dataset";
+    state.sourceStatus =
+      `Allen Brain Atlas query unavailable or metadata-only (${error.message}). Using literature-derived regional activation profiles for fear, memory, learning, focus, stress, and joy.`;
   }
   updateReadouts();
 }
