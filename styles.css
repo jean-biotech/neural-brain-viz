@@ -126,6 +126,10 @@ body {
   padding: 16px;
 }
 
+.chart-card {
+  min-height: 240px;
+}
+
 .readout-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=bioluminescent-2">
 </head>
 <body>
   <main class="app-shell">
@@ -15,7 +15,7 @@
       <header class="panel-header">
         <p class="eyebrow">Neural Activation Viewer</p>
         <h1>Brain region activation dashboard</h1>
-        <p class="subtle-copy">Type a cognitive or emotional cue to drive a biologically inspired activation cascade.</p>
+        <p class="subtle-copy">Type a cue word to trigger a live neural cascade.</p>
       </header>
 
       <form class="input-form" id="wordForm">
@@ -52,14 +52,6 @@
         <canvas id="activationChart" width="320" height="220" aria-label="Activation level chart"></canvas>
       </section>
 
-      <section class="data-block note-block">
-        <div class="section-heading">
-          <span>Source pipeline</span>
-        </div>
-        <p id="sourceStatus" class="source-status">
-          Initializing Allen Brain Atlas query, then falling back to literature-derived activation values if no usable signal is returned.
-        </p>
-      </section>
     </aside>
 
     <section class="viz-panel">
@@ -82,6 +74,6 @@
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=bioluminescent-2"></script>
 </body>
 </html>

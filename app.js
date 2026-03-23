@@ -5,7 +5,7 @@ const brainRegions = [
     color: "#5fc0b5",
     glow: "rgba(95, 192, 181, 0.32)",
     baseRadius: 31,
-    position: { x: 188, y: 152 },
+    position: { x: 154, y: 128 },
     secondary: false,
     wisps: [
       { x1: -18, y1: -10, cx: -54, cy: -44, x2: -72, y2: -74 },
@@ -19,7 +19,7 @@ const brainRegions = [
     color: "#b18df0",
     glow: "rgba(177, 141, 240, 0.3)",
     baseRadius: 36,
-    position: { x: 782, y: 132 },
+    position: { x: 802, y: 118 },
     secondary: false,
     wisps: [
       { x1: -20, y1: -14, cx: -54, cy: -42, x2: -78, y2: -68 },
@@ -33,7 +33,7 @@ const brainRegions = [
     color: "#7db5ff",
     glow: "rgba(125, 181, 255, 0.28)",
     baseRadius: 34,
-    position: { x: 438, y: 392 },
+    position: { x: 452, y: 350 },
     secondary: false,
     wisps: [
       { x1: -20, y1: -16, cx: -54, cy: -42, x2: -78, y2: -64 },
@@ -47,7 +47,7 @@ const brainRegions = [
     color: "#f0aa56",
     glow: "rgba(240, 170, 86, 0.28)",
     baseRadius: 30,
-    position: { x: 244, y: 492 },
+    position: { x: 216, y: 466 },
     secondary: false,
     wisps: [
       { x1: -16, y1: -12, cx: -42, cy: -30, x2: -58, y2: -52 },
@@ -61,7 +61,7 @@ const brainRegions = [
     color: "#93b1ff",
     glow: "rgba(147, 177, 255, 0.22)",
     baseRadius: 18,
-    position: { x: 348, y: 284 },
+    position: { x: 332, y: 256 },
     secondary: true,
     wisps: [
       { x1: -10, y1: -6, cx: -24, cy: -18, x2: -36, y2: -30 },
@@ -74,7 +74,7 @@ const brainRegions = [
     color: "#d2a1ff",
     glow: "rgba(210, 161, 255, 0.2)",
     baseRadius: 16,
-    position: { x: 646, y: 332 },
+    position: { x: 662, y: 286 },
     secondary: true,
     wisps: [
       { x1: -8, y1: -8, cx: -24, cy: -20, x2: -34, y2: -34 },
@@ -87,7 +87,7 @@ const brainRegions = [
     color: "#74c7a3",
     glow: "rgba(116, 199, 163, 0.2)",
     baseRadius: 17,
-    position: { x: 776, y: 522 },
+    position: { x: 786, y: 488 },
     secondary: true,
     wisps: [
       { x1: -8, y1: -6, cx: -22, cy: -18, x2: -34, y2: -28 },
@@ -139,8 +139,6 @@ const adjacency = connections.reduce((map, connection) => {
 const state = {
   currentWord: "resting",
   mode: "fallback dataset",
-  sourceStatus:
-    "Attempting Allen Brain Atlas structure query. Emotional state activation is not directly available there, so the viewer will use literature-derived mappings when the API yields metadata only or the request fails.",
   activation: Object.fromEntries(brainRegions.map((region) => [region.id, 0])),
   dominant: "resting",
   dominantId: null,
@@ -160,7 +158,6 @@ const currentWordEl = document.querySelector("#currentWord");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
 const dataModeEl = document.querySelector("#dataMode");
-const sourceStatusEl = document.querySelector("#sourceStatus");
 const wordForm = document.querySelector("#wordForm");
 const wordInput = document.querySelector("#wordInput");
 
@@ -383,7 +380,6 @@ function updateReadouts() {
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
   dataModeEl.textContent = state.mode;
-  sourceStatusEl.textContent = state.sourceStatus;
   drawChart();
 }
 
@@ -604,12 +600,8 @@ async function queryAllenBrainAtlas() {
     if (!usable) throw new Error("Allen API returned structure metadata without usable activation values");
 
     state.mode = "allen metadata + literature fallback";
-    state.sourceStatus =
-      "Allen Brain Atlas responded with live structure metadata. Because the API does not directly expose emotional brain-state activation by these regions, the viewer overlays literature-derived relative activation values for cue words.";
   } catch (error) {
     state.mode = "fallback dataset";
-    state.sourceStatus =
-      `Allen Brain Atlas query unavailable or non-activation-only (${error.message}). Using literature-derived regional activation profiles for fear, memory, learning, focus, stress, and joy.`;
   }
   updateReadouts();
 }
