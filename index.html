@@ -6,7 +6,7 @@
   <title>Neural Activation Viewer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,6 +17,14 @@
         <h1>Brain region activation dashboard</h1>
         <p class="subtle-copy">Type a cognitive or emotional cue to drive a biologically inspired activation cascade.</p>
       </header>
+
+      <form class="input-form" id="wordForm">
+        <label class="input-label" for="wordInput">Cue word</label>
+        <div class="input-row">
+          <input id="wordInput" name="word" type="text" placeholder="fear, joy, memory, focus..." autocomplete="off">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
 
       <section class="data-block">
         <div class="data-row">
@@ -60,14 +68,6 @@
           Initializing Allen Brain Atlas query, then falling back to literature-derived activation values if no usable signal is returned.
         </p>
       </section>
-
-      <form class="input-form" id="wordForm">
-        <label class="input-label" for="wordInput">Cue word</label>
-        <div class="input-row">
-          <input id="wordInput" name="word" type="text" placeholder="fear, joy, memory, focus..." autocomplete="off">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
     </aside>
 
     <section class="viz-panel">

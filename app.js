@@ -122,12 +122,12 @@ const state = {
     "Attempting Allen Brain Atlas structure query. Emotional state activation is not directly available there, so the viewer will use literature-derived mappings when the API yields metadata only or the request fails.",
   activation: { amygdala: 0, hippocampus: 0, prefrontal: 0, language: 0 },
   dominant: "resting",
+  dominantId: null,
   strength: 0,
   cascadeState: "resting",
   pulses: [],
   nodeRefs: new Map(),
-  connectionRefs: new Map(),
-  nodeOrder: brainRegions.map((region) => region.id)
+  connectionRefs: new Map()
 };
 
 const svg = document.querySelector("#networkSvg");
@@ -204,33 +204,22 @@ function approximateActivation(word) {
 }
 
 function renderNetwork() {
-  const defs = makeSvg("defs");
-
-  const glowFilter = makeSvg("filter", { id: "signalGlow", x: "-40%", y: "-40%", width: "180%", height: "180%" });
-  glowFilter.appendChild(makeSvg("feGaussianBlur", { stdDeviation: "3.2", result: "blur" }));
-  glowFilter.appendChild(makeSvg("feMerge"));
-  defs.appendChild(glowFilter);
-
-  const somaGradient = makeSvg("radialGradient", { id: "somaShade", cx: "32%", cy: "28%" });
-  somaGradient.appendChild(makeSvg("stop", { offset: "0%", "stop-color": "rgba(255,255,255,0.95)" }));
-  somaGradient.appendChild(makeSvg("stop", { offset: "100%", "stop-color": "rgba(255,255,255,0)" }));
-  defs.appendChild(somaGradient);
-
-  svg.appendChild(defs);
+  svg.innerHTML = "";
+  svg.appendChild(makeSvg("defs"));
 
   const baseLayer = makeSvg("g");
   const connectionLayer = makeSvg("g");
-  const nodeLayer = makeSvg("g");
   const pulseLayer = makeSvg("g", { id: "pulseLayer" });
+  const nodeLayer = makeSvg("g");
 
-  const gridGroup = makeSvg("g", { opacity: "0.33" });
+  const gridGroup = makeSvg("g", { opacity: "0.28" });
   for (let x = 40; x < 980; x += 80) {
     gridGroup.appendChild(makeSvg("line", {
       x1: x,
       y1: 0,
       x2: x,
       y2: 720,
-      stroke: "rgba(90, 102, 120, 0.12)",
+      stroke: "rgba(224, 229, 235, 0.9)",
       "stroke-width": 1
     }));
   }
@@ -240,7 +229,7 @@ function renderNetwork() {
       y1: y,
       x2: 980,
       y2: y,
-      stroke: "rgba(90, 102, 120, 0.12)",
+      stroke: "rgba(224, 229, 235, 0.9)",
       "stroke-width": 1
     }));
   }
@@ -254,23 +243,21 @@ function renderNetwork() {
       y1: from.position.y,
       x2: to.position.x,
       y2: to.position.y,
-      stroke: "rgba(105,116,132,0.42)",
-      "stroke-width": 2.2,
+      stroke: "rgba(116,126,140,0.34)",
+      "stroke-width": 0.5,
       "stroke-linecap": "round"
     });
-    connectionLayer.appendChild(line);
-
     const glow = makeSvg("line", {
       x1: from.position.x,
       y1: from.position.y,
       x2: to.position.x,
       y2: to.position.y,
-      stroke: "rgba(255,255,255,0)",
-      "stroke-width": 4.4,
+      stroke: "rgba(255,255,255,1)",
+      "stroke-width": 1.2,
       "stroke-linecap": "round",
       opacity: "0"
     });
-    connectionLayer.appendChild(glow);
+    connectionLayer.append(line, glow);
     state.connectionRefs.set(connection.id, { line, glow, connection });
   });
 
@@ -285,121 +272,54 @@ function renderNetwork() {
         y1: branch.y1,
         x2: branch.x2,
         y2: branch.y2,
-        stroke: "rgba(76, 88, 106, 0.72)",
-        "stroke-width": 3,
+        stroke: "rgba(95,106,121,0.66)",
+        "stroke-width": 2.1,
         "stroke-linecap": "round"
       }));
       regionGroup.appendChild(makeSvg("circle", {
         cx: branch.x2,
         cy: branch.y2,
-        r: 3.4,
-        fill: "rgba(95, 106, 123, 0.56)"
+        r: 2.8,
+        fill: "rgba(126,136,148,0.48)"
       }));
     });
 
-    const somaShadow = makeSvg("circle", {
-      cx: 8,
-      cy: 10,
-      r: region.baseRadius * region.depth,
-      fill: "rgba(67,78,95,0.08)"
-    });
-    regionGroup.appendChild(somaShadow);
-
+    const somaRadius = region.baseRadius * region.depth * 0.82;
     const soma = makeSvg("circle", {
       cx: 0,
       cy: 0,
-      r: region.baseRadius * region.depth,
+      r: somaRadius,
       fill: region.color,
-      opacity: "0.9",
-      stroke: "rgba(255,255,255,0.65)",
-      "stroke-width": 1.2
+      opacity: "0.48",
+      stroke: "rgba(255,255,255,0.95)",
+      "stroke-width": 1
     });
-    regionGroup.appendChild(soma);
-
-    const highlight = makeSvg("circle", {
-      cx: -region.baseRadius * 0.24,
-      cy: -region.baseRadius * 0.3,
-      r: region.baseRadius * 0.44,
-      fill: "rgba(255,255,255,0.16)"
-    });
-    regionGroup.appendChild(highlight);
-
-    const ring = makeSvg("circle", {
+    const activeRing = makeSvg("circle", {
       cx: 0,
       cy: 0,
-      r: region.baseRadius * region.depth + 8,
+      r: somaRadius + 4,
       fill: "none",
-      stroke: region.color,
-      "stroke-width": 1.5,
-      opacity: "0.18"
+      stroke: "#ffffff",
+      "stroke-width": 2,
+      opacity: "0"
     });
-    regionGroup.appendChild(ring);
-
     const label = makeSvg("text", {
       x: 0,
-      y: region.baseRadius * region.depth + 34,
+      y: region.baseRadius * region.depth + 28,
       "text-anchor": "middle",
-      "font-size": "16",
-      "font-family": "IBM Plex Mono, monospace",
-      fill: "#394558",
-      opacity: "0.88"
+      "font-size": "14",
+      "font-family": "JetBrains Mono, monospace",
+      fill: "#4a5666",
+      opacity: "0.74"
     });
     label.textContent = region.label;
-    regionGroup.appendChild(label);
 
+    regionGroup.append(soma, activeRing, label);
     nodeLayer.appendChild(regionGroup);
-    state.nodeRefs.set(region.id, { group: regionGroup, soma, ring, label, region });
+    state.nodeRefs.set(region.id, { soma, activeRing, label, region });
   });
 
   svg.append(baseLayer, connectionLayer, pulseLayer, nodeLayer);
-}
-
-function drawChart() {
-  const width = chart.width;
-  const height = chart.height;
-  chartContext.clearRect(0, 0, width, height);
-
-  chartContext.save();
-  chartContext.strokeStyle = "rgba(72, 84, 102, 0.18)";
-  chartContext.lineWidth = 1;
-  for (let y = 24; y < height - 24; y += 34) {
-    chartContext.beginPath();
-    chartContext.moveTo(18, y);
-    chartContext.lineTo(width - 18, y);
-    chartContext.stroke();
-  }
-
-  const entries = brainRegions.map((region) => ({
-    ...region,
-    value: state.activation[region.id] || 0
-  }));
-
-  const barWidth = 48;
-  const gap = 22;
-  const startX = 34;
-  const maxBarHeight = 126;
-  const baseY = height - 48;
-
-  entries.forEach((entry, index) => {
-    const x = startX + index * (barWidth + gap);
-    const barHeight = entry.value * maxBarHeight;
-    const gradient = chartContext.createLinearGradient(0, baseY - barHeight, 0, baseY);
-    gradient.addColorStop(0, `${entry.color}dd`);
-    gradient.addColorStop(1, `${entry.color}66`);
-
-    chartContext.fillStyle = gradient;
-    chartContext.beginPath();
-    drawRoundedRect(chartContext, x, baseY - barHeight, barWidth, Math.max(barHeight, 8), 10);
-    chartContext.fill();
-
-    chartContext.fillStyle = "#445064";
-    chartContext.font = "11px IBM Plex Mono";
-    chartContext.textAlign = "center";
-    chartContext.fillText(entry.label.split(" ")[0], x + barWidth / 2, height - 18);
-    chartContext.fillText(`${Math.round(entry.value * 100)}%`, x + barWidth / 2, baseY - barHeight - 10);
-  });
-
-  chartContext.restore();
 }
 
 function drawRoundedRect(context, x, y, width, height, radius) {
@@ -420,10 +340,53 @@ function drawRoundedRect(context, x, y, width, height, radius) {
   context.quadraticCurveTo(x, y, x + safeRadius, y);
 }
 
+function drawChart() {
+  const width = chart.width;
+  const height = chart.height;
+  chartContext.clearRect(0, 0, width, height);
+
+  chartContext.save();
+  chartContext.strokeStyle = "rgba(143,153,165,0.18)";
+  chartContext.lineWidth = 1;
+  for (let y = 24; y < height - 20; y += 34) {
+    chartContext.beginPath();
+    chartContext.moveTo(18, y);
+    chartContext.lineTo(width - 18, y);
+    chartContext.stroke();
+  }
+
+  const entries = brainRegions.map((region) => ({
+    ...region,
+    value: state.activation[region.id] || 0
+  }));
+
+  const barWidth = 28;
+  const gap = 34;
+  const startX = 48;
+  const maxBarHeight = 126;
+  const baseY = height - 42;
+
+  entries.forEach((entry, index) => {
+    const x = startX + index * (barWidth + gap);
+    const barHeight = entry.value * maxBarHeight;
+
+    chartContext.fillStyle = entry.color;
+    chartContext.beginPath();
+    drawRoundedRect(chartContext, x, baseY - barHeight, barWidth, Math.max(barHeight, 8), 8);
+    chartContext.fill();
+
+    chartContext.fillStyle = "#445064";
+    chartContext.font = "10px JetBrains Mono";
+    chartContext.textAlign = "center";
+    chartContext.fillText(entry.label.split(" ")[0], x + barWidth / 2, height - 16);
+  });
+
+  chartContext.restore();
+}
+
 function updateReadouts() {
   currentWordEl.textContent = state.currentWord;
-  const activeRegions = Object.values(state.activation).filter((value) => value >= 0.3).length;
-  activeRegionsEl.textContent = String(activeRegions);
+  activeRegionsEl.textContent = String(Object.values(state.activation).filter((value) => value >= 0.3).length);
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
   signalCascadeEl.textContent = state.cascadeState;
@@ -442,14 +405,13 @@ function triggerCascade(cascade) {
       return;
     }
     const connectionId = getConnectionId(nodeId, nextId);
-    const connectionRef = state.connectionRefs.get(connectionId);
-    if (!connectionRef) {
+    if (!state.connectionRefs.has(connectionId)) {
       return;
     }
     state.pulses.push({
       connectionId,
-      progress: -index * 0.22,
-      speed: 0.007 + index * 0.0012
+      start: performance.now() + index * 120,
+      duration: 240
     });
   });
 }
@@ -461,76 +423,95 @@ function applyScenario(word) {
       ? literatureActivation[resolved]
       : word && word !== "resting"
         ? approximateActivation(word)
-        : { activation: { amygdala: 0, hippocampus: 0, prefrontal: 0, language: 0 }, dominant: "resting", strength: 0, cascade: [] };
+        : {
+            activation: { amygdala: 0, hippocampus: 0, prefrontal: 0, language: 0 },
+            dominant: "resting",
+            strength: 0,
+            cascade: []
+          };
 
   state.currentWord = word || "resting";
   state.activeKey = resolved || "custom";
   state.activation = scenario.activation;
   state.dominant = scenario.dominant;
+  state.dominantId = Object.entries(scenario.activation).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
   state.strength = scenario.strength;
   triggerCascade(scenario.cascade);
   updateReadouts();
 }
 
 function animate() {
+  const pulseLayer = document.querySelector("#pulseLayer");
+  const now = performance.now();
   let activePulseCount = 0;
+  pulseLayer.innerHTML = "";
+
+  state.pulses = state.pulses.filter((pulse) => now - pulse.start <= pulse.duration * 1.28);
 
   state.connectionRefs.forEach(({ line, glow, connection }) => {
     const fromActivation = state.activation[connection.from] || 0;
     const toActivation = state.activation[connection.to] || 0;
-    const activeLevel = Math.max(fromActivation, toActivation) * connection.weight;
-    const isActive = activeLevel > 0.28;
+    const baseSignal = Math.max(fromActivation, toActivation) * connection.weight;
+    const pulse = state.pulses.find((item) => item.connectionId === connection.id);
+    let glowStrength = 0;
 
-    line.setAttribute("stroke", isActive ? "rgba(118, 126, 138, 0.7)" : "rgba(105,116,132,0.42)");
-    line.setAttribute("stroke-width", isActive ? String(2.4 + activeLevel * 1.4) : "2.2");
-
-    glow.setAttribute("stroke", isActive ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0)");
-    glow.setAttribute("opacity", isActive ? String(activeLevel * 0.9) : "0");
-  });
-
-  state.nodeRefs.forEach(({ soma, ring, region }) => {
-    const activation = state.activation[region.id] || 0;
-    const baseRadius = region.baseRadius * region.depth;
-    soma.setAttribute("r", String(baseRadius + activation * 4));
-    soma.setAttribute("opacity", String(0.78 + activation * 0.28));
-    ring.setAttribute("opacity", String(0.14 + activation * 0.46));
-    ring.setAttribute("r", String(baseRadius + 7 + activation * 6));
-  });
-
-  const pulseLayer = document.querySelector("#pulseLayer");
-  pulseLayer.innerHTML = "";
-
-  state.pulses.forEach((pulse) => {
-    pulse.progress += pulse.speed;
-    if (pulse.progress > 1.14) {
-      pulse.progress = -0.28;
-    }
-    if (pulse.progress >= 0 && pulse.progress <= 1) {
-      activePulseCount += 1;
-      const ref = state.connectionRefs.get(pulse.connectionId);
-      if (!ref) {
-        return;
+    if (pulse) {
+      const elapsed = now - pulse.start;
+      const progress = elapsed / pulse.duration;
+      if (progress >= 0 && progress <= 1.28) {
+        activePulseCount += 1;
+        glowStrength = progress <= 1
+          ? 0.18 + (1 - Math.abs(progress - 0.5) / 0.5) * 0.92
+          : Math.max(0, 0.34 * (1 - (progress - 1) / 0.28));
       }
-      const from = getRegionById(ref.connection.from).position;
-      const to = getRegionById(ref.connection.to).position;
-      const x = from.x + (to.x - from.x) * pulse.progress;
-      const y = from.y + (to.y - from.y) * pulse.progress;
+      if (progress >= 0 && progress <= 1) {
+        const from = getRegionById(connection.from).position;
+        const to = getRegionById(connection.to).position;
+        const headProgress = progress;
+        const tailProgress = Math.max(0, progress - 0.18);
+        const headX = from.x + (to.x - from.x) * headProgress;
+        const headY = from.y + (to.y - from.y) * headProgress;
+        const tailX = from.x + (to.x - from.x) * tailProgress;
+        const tailY = from.y + (to.y - from.y) * tailProgress;
 
-      const bead = makeSvg("circle", {
-        cx: x,
-        cy: y,
-        r: 7.2,
-        fill: "rgba(255,255,255,0.96)",
-        opacity: "0.92"
-      });
-      pulseLayer.appendChild(bead);
-      pulseLayer.appendChild(makeSvg("circle", {
-        cx: x,
-        cy: y,
-        r: 13,
-        fill: "rgba(255,255,255,0.22)"
-      }));
+        pulseLayer.appendChild(makeSvg("line", {
+          x1: tailX,
+          y1: tailY,
+          x2: headX,
+          y2: headY,
+          stroke: "rgba(255,255,255,0.24)",
+          "stroke-width": 7.2,
+          "stroke-linecap": "round",
+          opacity: "0.5"
+        }));
+        pulseLayer.appendChild(makeSvg("line", {
+          x1: tailX,
+          y1: tailY,
+          x2: headX,
+          y2: headY,
+          stroke: "rgba(255,255,255,0.98)",
+          "stroke-width": 3.2,
+          "stroke-linecap": "round",
+          opacity: "0.96"
+        }));
+      }
     }
+
+    line.setAttribute("stroke", glowStrength > 0 ? "rgba(202,210,220,0.78)" : "rgba(116,126,140,0.34)");
+    line.setAttribute("stroke-width", glowStrength > 0 ? String(0.7 + glowStrength * 1.1) : "0.5");
+    glow.setAttribute("opacity", String(glowStrength * Math.max(baseSignal, 0.5)));
+    glow.setAttribute("stroke-width", String(1.1 + glowStrength * 3));
+  });
+
+  state.nodeRefs.forEach(({ soma, activeRing, label, region }) => {
+    const activation = state.activation[region.id] || 0;
+    const baseRadius = region.baseRadius * region.depth * 0.82;
+    const isDominant = state.dominantId === region.id;
+    soma.setAttribute("r", String(baseRadius + activation * 1.5));
+    soma.setAttribute("opacity", String(isDominant ? 0.98 : 0.24 + activation * 0.3));
+    activeRing.setAttribute("opacity", String(isDominant ? 0.7 : 0));
+    activeRing.setAttribute("r", String(baseRadius + 4 + activation * 2));
+    label.setAttribute("opacity", String(isDominant ? 0.96 : 0.64));
   });
 
   if (state.cascadeState === "propagating" && activePulseCount === 0 && state.pulses.length) {
@@ -554,8 +535,7 @@ async function queryAllenBrainAtlas() {
     .join(",");
 
   const criteria = `or${structureCriteria}`;
-  const url =
-    `https://api.brain-map.org/api/v2/data/Structure/query.json?criteria=${encodeURIComponent(criteria)}&num_rows=8`;
+  const url = `https://api.brain-map.org/api/v2/data/Structure/query.json?criteria=${encodeURIComponent(criteria)}&num_rows=8`;
 
   try {
     const response = await fetch(url, { headers: { Accept: "application/json" } });
@@ -584,8 +564,7 @@ async function queryAllenBrainAtlas() {
 function bindEvents() {
   wordForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const word = wordInput.value.trim().toLowerCase();
-    applyScenario(word);
+    applyScenario(wordInput.value.trim().toLowerCase());
   });
 }
 
