@@ -1,99 +1,11 @@
 const brainRegions = [
-  {
-    id: "language",
-    label: "Language Cortex",
-    color: "#5fc0b5",
-    glow: "rgba(95, 192, 181, 0.32)",
-    baseRadius: 31,
-    position: { x: 154, y: 128 },
-    secondary: false,
-    wisps: [
-      { x1: -18, y1: -10, cx: -54, cy: -44, x2: -72, y2: -74 },
-      { x1: 16, y1: -12, cx: 42, cy: -44, x2: 52, y2: -78 },
-      { x1: -10, y1: 18, cx: -44, cy: 42, x2: -70, y2: 52 }
-    ]
-  },
-  {
-    id: "prefrontal",
-    label: "Prefrontal Cortex",
-    color: "#b18df0",
-    glow: "rgba(177, 141, 240, 0.3)",
-    baseRadius: 36,
-    position: { x: 802, y: 118 },
-    secondary: false,
-    wisps: [
-      { x1: -20, y1: -14, cx: -54, cy: -42, x2: -78, y2: -68 },
-      { x1: 16, y1: -8, cx: 54, cy: -40, x2: 80, y2: -60 },
-      { x1: 18, y1: 16, cx: 54, cy: 34, x2: 74, y2: 58 }
-    ]
-  },
-  {
-    id: "hippocampus",
-    label: "Hippocampus",
-    color: "#7db5ff",
-    glow: "rgba(125, 181, 255, 0.28)",
-    baseRadius: 34,
-    position: { x: 452, y: 350 },
-    secondary: false,
-    wisps: [
-      { x1: -20, y1: -16, cx: -54, cy: -42, x2: -78, y2: -64 },
-      { x1: 18, y1: -12, cx: 42, cy: -34, x2: 60, y2: -62 },
-      { x1: 12, y1: 20, cx: 36, cy: 52, x2: 58, y2: 76 }
-    ]
-  },
-  {
-    id: "amygdala",
-    label: "Amygdala",
-    color: "#f0aa56",
-    glow: "rgba(240, 170, 86, 0.28)",
-    baseRadius: 30,
-    position: { x: 216, y: 466 },
-    secondary: false,
-    wisps: [
-      { x1: -16, y1: -12, cx: -42, cy: -30, x2: -58, y2: -52 },
-      { x1: 14, y1: -8, cx: 38, cy: -28, x2: 60, y2: -44 },
-      { x1: -10, y1: 16, cx: -32, cy: 42, x2: -46, y2: 66 }
-    ]
-  },
-  {
-    id: "thalamus",
-    label: "Thalamus",
-    color: "#93b1ff",
-    glow: "rgba(147, 177, 255, 0.22)",
-    baseRadius: 18,
-    position: { x: 332, y: 256 },
-    secondary: true,
-    wisps: [
-      { x1: -10, y1: -6, cx: -24, cy: -18, x2: -36, y2: -30 },
-      { x1: 10, y1: 6, cx: 20, cy: 18, x2: 32, y2: 26 }
-    ]
-  },
-  {
-    id: "basal-ganglia",
-    label: "Basal Ganglia",
-    color: "#d2a1ff",
-    glow: "rgba(210, 161, 255, 0.2)",
-    baseRadius: 16,
-    position: { x: 662, y: 286 },
-    secondary: true,
-    wisps: [
-      { x1: -8, y1: -8, cx: -24, cy: -20, x2: -34, y2: -34 },
-      { x1: 8, y1: 8, cx: 22, cy: 20, x2: 34, y2: 30 }
-    ]
-  },
-  {
-    id: "cerebellum",
-    label: "Cerebellum",
-    color: "#74c7a3",
-    glow: "rgba(116, 199, 163, 0.2)",
-    baseRadius: 17,
-    position: { x: 786, y: 488 },
-    secondary: true,
-    wisps: [
-      { x1: -8, y1: -6, cx: -22, cy: -18, x2: -34, y2: -28 },
-      { x1: 8, y1: -4, cx: 20, cy: -18, x2: 30, y2: -28 }
-    ]
-  }
+  { id: "language", label: "Language Cortex", color: "#5fc0b5", glow: "rgba(95, 192, 181, 0.32)", baseRadius: 31, position: { x: 154, y: 128 }, secondary: false },
+  { id: "prefrontal", label: "Prefrontal Cortex", color: "#b18df0", glow: "rgba(177, 141, 240, 0.3)", baseRadius: 36, position: { x: 802, y: 118 }, secondary: false },
+  { id: "hippocampus", label: "Hippocampus", color: "#7db5ff", glow: "rgba(125, 181, 255, 0.28)", baseRadius: 34, position: { x: 452, y: 350 }, secondary: false },
+  { id: "amygdala", label: "Amygdala", color: "#f0aa56", glow: "rgba(240, 170, 86, 0.28)", baseRadius: 30, position: { x: 216, y: 466 }, secondary: false },
+  { id: "thalamus", label: "Thalamus", color: "#93b1ff", glow: "rgba(147, 177, 255, 0.22)", baseRadius: 18, position: { x: 332, y: 256 }, secondary: true },
+  { id: "basal-ganglia", label: "Basal Ganglia", color: "#d2a1ff", glow: "rgba(210, 161, 255, 0.2)", baseRadius: 16, position: { x: 662, y: 286 }, secondary: true },
+  { id: "cerebellum", label: "Cerebellum", color: "#74c7a3", glow: "rgba(116, 199, 163, 0.2)", baseRadius: 17, position: { x: 786, y: 488 }, secondary: true }
 ];
 
 const connections = [
@@ -128,6 +40,16 @@ const keywordAliases = {
   danger: "fear"
 };
 
+const regionDefinitions = {
+  amygdala: "Processes threat detection and emotional memory formation",
+  hippocampus: "Encodes and retrieves spatial and episodic memories",
+  prefrontal: "Regulates decision-making, attention and impulse control",
+  language: "Coordinates speech production and language comprehension",
+  thalamus: "Relays sensory and motor signals to the cerebral cortex",
+  "basal-ganglia": "Coordinates voluntary movement and reward processing",
+  cerebellum: "Fine-tunes motor control and procedural memory"
+};
+
 const adjacency = connections.reduce((map, connection) => {
   map[connection.from] ??= [];
   map[connection.to] ??= [];
@@ -138,15 +60,13 @@ const adjacency = connections.reduce((map, connection) => {
 
 const state = {
   currentWord: "resting",
-  mode: "fallback dataset",
-  sourceStatus:
-    "Attempting Allen Brain Atlas query, then falling back to literature-derived activation values if no usable signal is returned.",
   activation: Object.fromEntries(brainRegions.map((region) => [region.id, 0])),
   dominant: "resting",
   dominantId: null,
   strength: 0,
   pulses: [],
   nodePulses: [],
+  timelineEvents: [],
   activeNodes: new Map(),
   activeConnections: new Map(),
   nodeRefs: new Map(),
@@ -156,6 +76,10 @@ const state = {
 const svg = document.querySelector("#networkSvg");
 const chart = document.querySelector("#activationChart");
 const chartContext = chart.getContext("2d");
+const fingerprintChart = document.querySelector("#fingerprintChart");
+const fingerprintContext = fingerprintChart.getContext("2d");
+const timelineSvg = document.querySelector("#timelineSvg");
+const tooltipEl = document.querySelector("#nodeTooltip");
 const currentWordEl = document.querySelector("#currentWord");
 const dominantRegionEl = document.querySelector("#dominantRegion");
 const connectionStrengthEl = document.querySelector("#connectionStrength");
@@ -213,6 +137,23 @@ function renderAxisHud() {
   `;
 }
 
+function showTooltip(regionId, event) {
+  tooltipEl.textContent = regionDefinitions[regionId] || getRegionById(regionId)?.label || "";
+  tooltipEl.classList.add("visible");
+  tooltipEl.setAttribute("aria-hidden", "false");
+  const rect = svg.getBoundingClientRect();
+  const width = 220;
+  const x = Math.min(rect.width - width - 12, Math.max(12, event.clientX - rect.left + 14));
+  const y = Math.max(12, event.clientY - rect.top - 42);
+  tooltipEl.style.left = `${x}px`;
+  tooltipEl.style.top = `${y}px`;
+}
+
+function hideTooltip() {
+  tooltipEl.classList.remove("visible");
+  tooltipEl.setAttribute("aria-hidden", "true");
+}
+
 function renderNetwork() {
   svg.innerHTML = "";
   const defs = makeSvg("defs");
@@ -227,13 +168,7 @@ function renderNetwork() {
   });
 
   svg.appendChild(defs);
-  svg.appendChild(makeSvg("rect", {
-    x: 0,
-    y: 0,
-    width: 980,
-    height: 660,
-    fill: "#0a0e1a"
-  }));
+  svg.appendChild(makeSvg("rect", { x: 0, y: 0, width: 980, height: 660, fill: "#0a0e1a" }));
 
   const connectionLayer = makeSvg("g");
   const streakLayer = makeSvg("g", { id: "streakLayer" });
@@ -304,6 +239,13 @@ function renderNetwork() {
     });
     label.textContent = region.label;
 
+    [glow, sphere, label].forEach((node) => {
+      node.style.cursor = "default";
+      node.addEventListener("mouseenter", (event) => showTooltip(region.id, event));
+      node.addEventListener("mousemove", (event) => showTooltip(region.id, event));
+      node.addEventListener("mouseleave", hideTooltip);
+    });
+
     group.append(glow, sphere, pulseLayer, label);
     nodeLayer.appendChild(group);
     state.nodeRefs.set(region.id, { glow, sphere, pulseLayer, label, region });
@@ -334,12 +276,7 @@ function drawChart() {
   const height = chart.height;
   chartContext.clearRect(0, 0, width, height);
 
-  const labelMap = {
-    language: "Lang",
-    prefrontal: "PFC",
-    hippocampus: "Hippo",
-    amygdala: "Amyg"
-  };
+  const labelMap = { language: "Lang", prefrontal: "PFC", hippocampus: "Hippo", amygdala: "Amyg" };
   const entries = brainRegions.filter((region) => !region.secondary).map((region) => ({
     ...region,
     shortLabel: labelMap[region.id] || region.label,
@@ -372,11 +309,141 @@ function drawChart() {
   });
 }
 
+function drawFingerprintChart() {
+  const width = fingerprintChart.width;
+  const height = fingerprintChart.height;
+  fingerprintContext.clearRect(0, 0, width, height);
+
+  const entries = [
+    { id: "amygdala", label: "Amygdala", value: state.activation.amygdala || 0 },
+    { id: "hippocampus", label: "Hippocampus", value: state.activation.hippocampus || 0 },
+    { id: "prefrontal", label: "Prefrontal", value: state.activation.prefrontal || 0 },
+    { id: "language", label: "Language", value: state.activation.language || 0 },
+    { id: "thalamus", label: "Thalamus", value: state.activation.thalamus || 0 },
+    { id: "cerebellum", label: "Cereb/BG", value: Math.max(state.activation.cerebellum || 0, state.activation["basal-ganglia"] || 0) }
+  ];
+  const centerX = width / 2;
+  const centerY = height / 2 + 10;
+  const radius = 72;
+  const dominantColor = getRegionById(state.dominantId || "amygdala")?.color || "#fff5c0";
+
+  fingerprintContext.save();
+  fingerprintContext.strokeStyle = "rgba(133,145,170,0.18)";
+  fingerprintContext.lineWidth = 1;
+  for (let ring = 1; ring <= 4; ring += 1) {
+    fingerprintContext.beginPath();
+    entries.forEach((_, index) => {
+      const angle = -Math.PI / 2 + (Math.PI * 2 * index) / entries.length;
+      const x = centerX + Math.cos(angle) * radius * (ring / 4);
+      const y = centerY + Math.sin(angle) * radius * (ring / 4);
+      if (index === 0) fingerprintContext.moveTo(x, y);
+      else fingerprintContext.lineTo(x, y);
+    });
+    fingerprintContext.closePath();
+    fingerprintContext.stroke();
+  }
+
+  entries.forEach((entry, index) => {
+    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / entries.length;
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
+    fingerprintContext.beginPath();
+    fingerprintContext.moveTo(centerX, centerY);
+    fingerprintContext.lineTo(x, y);
+    fingerprintContext.stroke();
+
+    fingerprintContext.fillStyle = "#8591aa";
+    fingerprintContext.font = "10px DM Sans";
+    fingerprintContext.textAlign = "center";
+    fingerprintContext.fillText(entry.label, centerX + Math.cos(angle) * (radius + 18), centerY + Math.sin(angle) * (radius + 18));
+  });
+
+  fingerprintContext.beginPath();
+  entries.forEach((entry, index) => {
+    const angle = -Math.PI / 2 + (Math.PI * 2 * index) / entries.length;
+    const x = centerX + Math.cos(angle) * radius * entry.value;
+    const y = centerY + Math.sin(angle) * radius * entry.value;
+    if (index === 0) fingerprintContext.moveTo(x, y);
+    else fingerprintContext.lineTo(x, y);
+  });
+  fingerprintContext.closePath();
+  fingerprintContext.fillStyle = `${dominantColor}4d`;
+  fingerprintContext.strokeStyle = dominantColor;
+  fingerprintContext.lineWidth = 1;
+  fingerprintContext.fill();
+  fingerprintContext.stroke();
+  fingerprintContext.restore();
+}
+
+function drawTimeline(now = performance.now()) {
+  timelineSvg.innerHTML = "";
+  const width = 980;
+  const baselineY = 20;
+
+  timelineSvg.appendChild(makeSvg("line", {
+    x1: 14,
+    y1: baselineY,
+    x2: width - 16,
+    y2: baselineY,
+    stroke: "rgba(133,145,170,0.22)",
+    "stroke-width": 1
+  }));
+
+  const visible = state.timelineEvents.filter((event) => now >= event.start);
+  if (!visible.length) return;
+
+  const maxOffset = Math.max(...visible.map((event) => event.offset), 1);
+  const usableWidth = width - 80;
+  let prevX = null;
+
+  visible.forEach((event) => {
+    const region = getRegionById(event.nodeId);
+    const x = 30 + (event.offset / maxOffset) * usableWidth;
+    const y = baselineY;
+
+    if (prevX !== null) {
+      timelineSvg.appendChild(makeSvg("line", {
+        x1: prevX,
+        y1: y,
+        x2: x,
+        y2: y,
+        stroke: "rgba(133,145,170,0.42)",
+        "stroke-width": 1
+      }));
+    }
+
+    timelineSvg.appendChild(makeSvg("circle", { cx: x, cy: y, r: 4, fill: region.color }));
+    const name = makeSvg("text", {
+      x,
+      y: 10,
+      "text-anchor": "middle",
+      "font-size": "8.5",
+      "font-family": "DM Sans, sans-serif",
+      fill: "#d8e0ef"
+    });
+    name.textContent = region.label;
+    timelineSvg.appendChild(name);
+
+    const stamp = makeSvg("text", {
+      x,
+      y: 34,
+      "text-anchor": "middle",
+      "font-size": "8",
+      "font-family": "DM Mono, monospace",
+      fill: "rgba(133,145,170,0.82)"
+    });
+    stamp.textContent = `${event.offset}ms`;
+    timelineSvg.appendChild(stamp);
+    prevX = x;
+  });
+}
+
 function updateReadouts() {
   currentWordEl.textContent = state.currentWord;
   dominantRegionEl.textContent = state.dominant;
   connectionStrengthEl.textContent = state.strength.toFixed(2);
   drawChart();
+  drawFingerprintChart();
 }
 
 function buildCascade(startId) {
@@ -411,6 +478,7 @@ function buildCascade(startId) {
 function triggerCascade(startId) {
   state.pulses = [];
   state.nodePulses = [];
+  state.timelineEvents = [];
   state.activeNodes.clear();
   state.activeConnections.clear();
   if (!startId) return;
@@ -423,6 +491,7 @@ function triggerCascade(startId) {
     const start = now + event.depth * 620;
     state.nodePulses.push({ nodeId: event.nodeId, start, duration: 800 });
     state.activeNodes.set(event.nodeId, { start, duration: 2200, color: region.color });
+    state.timelineEvents.push({ nodeId: event.nodeId, start, offset: Math.round(start - now) });
   });
 
   connectionEvents.forEach((event) => {
@@ -466,7 +535,6 @@ function applyScenario(word) {
 function animate(now) {
   const streakLayer = document.querySelector("#streakLayer");
   streakLayer.innerHTML = "";
-  let activeVisuals = 0;
 
   state.connectionRefs.forEach(({ base, trail, glow, connection }) => {
     const pulse = state.pulses.find((item) => item.connectionId === connection.id);
@@ -477,7 +545,6 @@ function animate(now) {
     if (activeState) {
       const elapsed = now - activeState.start;
       if (elapsed >= 0 && elapsed <= activeState.duration) {
-        activeVisuals += 1;
         sustained = 1 - elapsed / activeState.duration;
       }
     }
@@ -486,7 +553,6 @@ function animate(now) {
       const elapsed = now - pulse.start;
       const total = pulse.duration + pulse.fade;
       if (elapsed >= 0 && elapsed <= total) {
-        activeVisuals += 1;
         if (elapsed <= pulse.duration) {
           const progress = elapsed / pulse.duration;
           const from = getRegionById(pulse.from).position;
@@ -541,7 +607,6 @@ function animate(now) {
     if (activeState) {
       const elapsed = now - activeState.start;
       if (elapsed >= 0 && elapsed <= activeState.duration) {
-        activeVisuals += 1;
         pulseStrength = 1 - elapsed / activeState.duration;
       }
     }
@@ -568,37 +633,8 @@ function animate(now) {
     }
   });
 
+  drawTimeline(now);
   requestAnimationFrame(animate);
-}
-
-async function queryAllenBrainAtlas() {
-  const structureCriteria = [
-    "Amygdala",
-    "Hippocampus",
-    "Prefrontal cortex",
-    "Temporal association areas"
-  ].map((name) => `[name$il'${name}']`).join(",");
-
-  const criteria = `or${structureCriteria}`;
-  const url = `https://api.brain-map.org/api/v2/data/Structure/query.json?criteria=${encodeURIComponent(criteria)}&num_rows=8`;
-
-  try {
-    const response = await fetch(url, { headers: { Accept: "application/json" } });
-    if (!response.ok) throw new Error(`Allen API responded ${response.status}`);
-    const payload = await response.json();
-    const rows = Array.isArray(payload.msg) ? payload.msg : [];
-    const usable = rows.some((row) => row?.name && row?.graph_id);
-    if (!usable) throw new Error("Allen API returned structure metadata without usable activation values");
-
-    state.mode = "allen metadata + literature fallback";
-    state.sourceStatus =
-      "Allen Brain Atlas responded with live structure metadata. Emotional state activation is not directly exposed there, so the viewer overlays literature-derived relative activation values for cue words.";
-  } catch (error) {
-    state.mode = "fallback dataset";
-    state.sourceStatus =
-      `Allen Brain Atlas query unavailable or metadata-only (${error.message}). Using literature-derived regional activation profiles for fear, memory, learning, focus, stress, and joy.`;
-  }
-  updateReadouts();
 }
 
 function bindEvents() {
@@ -613,5 +649,4 @@ renderNetwork();
 bindEvents();
 updateReadouts();
 applyScenario("fear");
-queryAllenBrainAtlas();
 requestAnimationFrame(animate);

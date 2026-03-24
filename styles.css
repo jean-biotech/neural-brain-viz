@@ -136,6 +136,11 @@ body {
   flex-direction: column;
 }
 
+.fingerprint-card {
+  min-height: 260px;
+  flex: 0 0 auto;
+}
+
 .readout-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -193,6 +198,14 @@ body {
   flex: 1;
 }
 
+#fingerprintChart {
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  border-radius: 10px;
+  background: transparent;
+}
+
 input,
 button {
   font: inherit;
@@ -241,6 +254,57 @@ button:focus {
   background: #0a0e1a;
 }
 
+.node-tooltip {
+  position: absolute;
+  z-index: 3;
+  max-width: 220px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #1a2235;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 140ms ease, transform 140ms ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.node-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  padding: 0 10px;
+  background: #131929;
+  border-top: 1px solid rgba(30, 37, 53, 0.82);
+}
+
+.timeline-label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: rgba(134, 148, 171, 0.7);
+}
+
+#timelineSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .particle-field {
   position: absolute;
   inset: 0;
@@ -273,7 +337,7 @@ button:focus {
 .axis-indicator {
   position: absolute;
   left: 14px;
-  bottom: 14px;
+  bottom: 48px;
   width: 44px;
   height: 44px;
   pointer-events: none;

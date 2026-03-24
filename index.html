@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=bioluminescent-3">
+  <link rel="stylesheet" href="styles.css?v=bioluminescent-4">
 </head>
 <body>
   <main class="app-shell">
@@ -51,6 +51,13 @@
         <canvas id="activationChart" width="320" height="220" aria-label="Activation level chart"></canvas>
       </section>
 
+      <section class="chart-card fingerprint-card">
+        <div class="section-heading">
+          <span>Neural fingerprint</span>
+        </div>
+        <canvas id="fingerprintChart" width="320" height="220" aria-label="Neural fingerprint radar chart"></canvas>
+      </section>
+
     </aside>
 
     <section class="viz-panel">
@@ -64,6 +71,11 @@
       <div class="network-stage">
         <div class="particle-field" aria-hidden="true"></div>
         <svg id="networkSvg" viewBox="0 0 980 660" role="img" aria-label="Interactive neural network visualization"></svg>
+        <div id="nodeTooltip" class="node-tooltip" role="tooltip" aria-hidden="true"></div>
+        <div class="timeline-strip" aria-hidden="true">
+          <div class="timeline-label">Cascade timeline</div>
+          <svg id="timelineSvg" viewBox="0 0 980 40" preserveAspectRatio="none"></svg>
+        </div>
         <div class="axis-indicator" aria-hidden="true">
           <span class="axis axis-x">X</span>
           <span class="axis axis-y">Y</span>
@@ -73,6 +85,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=bioluminescent-3"></script>
+  <script src="app.js?v=bioluminescent-4"></script>
 </body>
 </html>
